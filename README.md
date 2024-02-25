@@ -3,3 +3,8 @@ An application of generative AI which can take any video as an input and the AI 
 
 ## Demo Video
 [Watch](https://github.com/0EnIgma1/Blind-assistance/blob/main/demo)
+
+
+[![]](https://github.com/0EnIgma1/Blind-assistance/assets/87116237/0a7e43f5-fe1e-465e-8a0a-07365f95df0f)
+
+
