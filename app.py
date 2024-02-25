@@ -9,8 +9,9 @@ from gtts import gTTS
 from playsound import playsound
 from PIL import PngImagePlugin
 import time
+import config
 
-gemini_API = os.environ["gemini_API"] = "AIzaSyA6NI9yl3J-njCCFurFu6VGWQ8zEycK-HY"
+gemini_API = os.environ["gemini_API"] = config.gemini_API
 genai.configure(api_key=gemini_API)
 
 for m in genai.list_models():
@@ -68,7 +69,7 @@ def split_frames(video):
   return local_captions, extracted_frames_count, extracted_frames
 
 def condensation(local_captions):
-  prompt = "Explain the scenario of what is happening based on the input captions given like a brief summary. Combine all the captions generated from images and summarize them"
+  prompt = "Explain the scenario of what is happening based on the input captions given like a summary. All the captions are sequential and all captions are from same video. Combine all the captions summarize them"
   response = text_model.generate_content(f"{prompt}. {local_captions}", stream=True)
   response.resolve()
   return response.text
@@ -89,12 +90,12 @@ def text_to_audio(summary):
     #playsound(filename)
     #os.close(filename)
 
-interface_description="""<p>V1.3: Changed Caption generation layer with Gemini vision pro architecture. Can perform Video understanding and can handle short videos upto 15 seconds.,</p>
+interface_description="""<p>V2.0: Changed Caption generation layer with Gemini vision pro architecture. Can perform Video understanding and can handle short videos upto 30 seconds.,</p>
                             <p>Previous versions</p>
                                 <ul>
                                     <li>V1.2: Included Condensation layer that works on top of Gemini pro architecture.</li>
                                     <li>V1.1: Included Interval Frame Sampling (IFS), that extracts frames from video in a fixed interval. Leads to extraction of unfocused, noisy frames</li>
-                                    <li>V1.0: Can generate captions from images using simple encoder-decoder architecture (custom).</li>
+                                   <li>V1.0: Can generate captions from images using simple encoder-decoder architecture (custom).</li>
                                 </ul>"""
 
 def video_identity(video):
@@ -124,7 +125,7 @@ demo = gr.Interface(video_identity,
                         gr.Audio(label="Summarized content as audio")
                     ],
                     examples=[["footage3.mp4"], ["ronaldo.mp4"], ["footage4.mp4"]],
-                    title="Video Understanding V1.3",
+                    title="Blind Assistance V2.0",
                     description=interface_description,
 )
 demo.launch(share=True)
